@@ -16,7 +16,19 @@
 
                     <div class="panel-body">
                         {!! Form::model($post, ['method' => 'PUT', 'url' => "/admin/posts/{$post->id}", 'class' => 'form-horizontal', 'role' => 'form']) !!}
-
+                            
+                            <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
+                                {!! Form::label('user_id', 'Author', ['class' => 'col-md-2 control-label']) !!}
+                            
+                                <div class="col-md-8">
+                                    {!! Form::select('user_id', $users, null, ['class' => 'form-control', 'required']) !!}
+                                    
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('user_id') }}</strong>
+                                    </span>
+                                </div>
+                            </div>
+                            
                             @include('admin.posts._form')
 
                             <div class="form-group">

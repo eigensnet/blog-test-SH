@@ -22,3 +22,10 @@ php artisan db:seed
 4. Nach dem erstellen eines Posts soll der Admin eine Notification bekommen. Titel: "Neuer Post". Inhalt: Link zum Post.
 
 
+1. Es gab einen Post der einen Autor hatte, welcher nicht / nicht mehr in der DB ist. - Hab hier einen static String als Autor eingetragen, damit die Index Seite geladen werden kann
+
+2. Wenn man jetzt als Admin auf Edit Post geht, kann man den Autor ändern.
+3. Dies habe ich mit einem selbst erstellten Artisan Command gelöst (post:create), welchen ich in den Kernel Scheduler eingebaut habe
+4. Dies passiert als Mail Notification
+
+

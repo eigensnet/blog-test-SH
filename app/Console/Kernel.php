@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\CreateSummaryPostCommand::class,
     ];
 
     /**
@@ -26,6 +27,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        // create a post every first day of the month at 00:00 through a artisan command
+        $schedule->command('post:create')->monthly();
     }
 
     /**
