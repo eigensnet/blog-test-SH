@@ -39,7 +39,7 @@ class PostController extends Controller
         );
         
         $postData = Post::latest()->first();
-        $user = User::latest()->first();
+        $user = User::first();
         $user->notify(new PostCreated($postData));
 
         $tagsId = collect($request->tags)->map(
