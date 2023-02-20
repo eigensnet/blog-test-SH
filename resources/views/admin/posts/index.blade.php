@@ -32,7 +32,16 @@
                                     <tr>
                                         <td>{{ $post->title }}</td>
                                         <td>{{ str_limit($post->body, 60) }}</td>
-                                        <td>{{ $post->user->name }}</td>
+                                        
+                                        <td>
+                                            <!-- check if user has a user name, otherwise this is likly to break - I decided to give a static info, in case there is a user without a username so the website gets displayed -->
+                                            @if (isset($post->user->name))
+                                                {{ $post->user->name }}
+                                            @else 
+                                                {{ 'no user name given' }}
+                                            @endif
+                                        </td>
+
                                         <td>{{ $post->category->name }}</td>
                                         <td>{{ $post->tags->implode('name', ', ') }}</td>
                                         <td>{{ $post->published }}</td>

@@ -8,7 +8,15 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2>
-                            {{ $post->title }} <small>by {{ $post->user->name }}</small>
+                            {{ $post->title }} 
+                            
+                            <small>by 
+                                @if (isset($post->user->name))
+                                    {{ $post->user->name }}
+                                @else 
+                                    {{ 'no user name given' }}
+                                @endif
+                            </small>
 
                             <a href="{{ url('admin/posts') }}" class="btn btn-default pull-right">Go Back</a>
                         </h2>

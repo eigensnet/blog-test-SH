@@ -7,6 +7,8 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\User;
+use App\Notifications\PostCreated;
 
 class PostController extends Controller
 {
@@ -32,8 +34,13 @@ class PostController extends Controller
                 'title'       => $request->title,
                 'body'        => $request->body,
                 'category_id' => $request->category_id,
+                'user_id'     => $request->user_id
             ]
         );
+        
+        $postData = Post::latest()->first();
+        $user = User::latest()->first();
+        $user->notify(new PostCreated($postData));
 
         $tagsId = collect($request->tags)->map(
             function ($tag) {
@@ -62,10 +69,16 @@ class PostController extends Controller
             return redirect('/admin/posts');
         }
 
+        $users = User::pluck('name','id')->all();
         $categories = Category::pluck('name', 'id')->all();
         $tags = Tag::pluck('name', 'name')->all();
 
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        if (auth()->user()->is_admin == false) {
+            $users = array($post->user_id=>auth()->user()->name);
+            return view('admin.posts.edit', compact('users', 'post', 'categories', 'tags'));
+        }
+
+        return view('admin.posts.edit', compact('users', 'post', 'categories', 'tags'));
     }
 
     public function update(PostRequest $request, Post $post)
@@ -75,6 +88,7 @@ class PostController extends Controller
                 'title'       => $request->title,
                 'body'        => $request->body,
                 'category_id' => $request->category_id,
+                'user_id'       => $request->user_id,
             ]
         );
 
